@@ -42,3 +42,23 @@ const sortOptions = [
       parseFloat(b.querySelector('#header #vote-count-middle').innerText),
   },
 ];
+
+// Create the sort menu options
+const sortMenuOptions = document.createElement('div');
+sortMenuOptions.className = 'ytd-menu-popup-renderer';
+
+sortOptions.forEach((option, index) => {
+  const menuItem = document.createElement('paper-item');
+  menuItem.className = 'style-scope ytd-menu-popup-renderer';
+
+  menuItem.innerText = option.name;
+
+  menuItem.addEventListener('click', () => {
+    const sortedComments = Array.from(commentList.children).sort(option.fn);
+    commentList.append(...sortedComments);
+  });
+  sortMenuOptions.appendChild(menuItem);
+});
+
+// Add the sort menu options to the sort menu
+sortMenu.appendChild(sortMenuOptions);
