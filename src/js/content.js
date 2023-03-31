@@ -74,6 +74,10 @@ sortOptions.forEach((option, index) => {
   const menuItem = document.createElement('paper-item');
   menuItem.className = 'style-scope ytd-menu-popup-renderer';
 
+  menuItem.setAttribute('role', 'menuitem');
+  menuItem.setAttribute('tabindex', '0');
+  menuItem.setAttribute('aria-disabled', 'false');
+
   menuItem.innerText = option.name;
 
   menuItem.addEventListener('click', () => {
