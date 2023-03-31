@@ -1,18 +1,36 @@
 {
   "manifest_version": 3,
   "name": "Commento",
+  "description": "Sort YouTube comments by newest, oldest, top, or worst",
   "version": "2.0",
-  "description": "Sorts YouTube comments by various criteria.",
-  "icons": {
-    "16": "src/icons/icon-16.png",
-    "48": "src/icons/icon-48.png",
-    "128": "src/icons/icon-128.png"
-  },
-  "content_scripts": [
+  "icons": [
     {
-      "matches": ["https://www.youtube.com/*"],
-      "js": ["src/js/content.js"],
-      "run_at": "document_end"
+      "src": "src/icons/icon-16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "src/icons/icon-48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "src/icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
     }
-  ]
+  ],
+  "permissions": ["activeTab"],
+  "host_permissions": ["www.youtube.com"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "src/icons/icon-16.png",
+      "48": "src/icons/icon-48.png",
+      "128": "src/icons/icon-128.png"
+    }
+  }
 }
