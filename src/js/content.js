@@ -52,6 +52,9 @@ sortOptions.forEach((option, index) => {
   menuItem.className = 'style-scope ytd-menu-popup-renderer';
 
   menuItem.innerText = option.name;
+  menuItem.setAttribute('role', 'menuitem');
+  menuItem.setAttribute('tabindex', '0');
+  menuItem.setAttribute('aria-disabled', 'false');
 
   menuItem.addEventListener('click', () => {
     const sortedComments = Array.from(commentList.children).sort(option.fn);
