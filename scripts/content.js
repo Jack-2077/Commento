@@ -26,7 +26,18 @@ chrome.runtime.onMessage.addListener((request) => {
 });
 
 function activateExtension() {
-  console.log(document.querySelector('ytd-comments'));
+  const commentsEl = document.querySelector('#comments');
+
+  const sortButton = document.createElement('button');
+  sortButton.classList.add('comments-header-btn');
+  sortButton.innerHTML = 'SORT';
+
+  if (!commentsEl.querySelector('header')) {
+    const header = document.createElement('header');
+    header.classList.add('comments-header');
+    header.append(sortButton);
+    commentsEl.prepend(header);
+  }
 }
 
 function test() {
@@ -82,7 +93,15 @@ function test() {
 // addObserverIfDesiredNodeAvailable();
 
 /* {
- 
- 
- - check for the comment element and if it exists check the parent
+ - copy options menu and insert new option
+ const commentsEl = document.querySelector('#comments');
+
+  const optionsMenu = document.querySelector('tp-yt-paper-listbox');
+
+  const optionCopy = optionsMenu.children[0].cloneNode(true);
+
+  optionCopy.textContent = 'test option';
+
+  optionsMenu.prepend(optionCopy);
+  console.log(optionsMenu);
  } */
