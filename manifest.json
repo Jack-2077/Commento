@@ -6,7 +6,8 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/*"],
-      "js": ["scripts/content.js"]
+      "js": ["scripts/content.js"],
+      "css": ["scripts/styles.css"]
     }
   ],
   "background": {
