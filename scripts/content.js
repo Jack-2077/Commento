@@ -25,12 +25,48 @@ chrome.runtime.onMessage.addListener((request) => {
   observer.observe(trackedElement, config);
 });
 
+// Convert likes from string to float
+function convertToNumber(val) {
+  const multiplier = val.slice(-1).toLowerCase();
+  if (multiplier == 'k') return parseFloat(val) * 1000;
+  else if (multiplier == 'm') return parseFloat(val) * 1000000;
+
+  return parseFloat(val);
+}
+
+function sortCommentsByLikes() {
+  const commentElements = document.querySelectorAll(
+    '#contents.style-scope.ytd-item-section-renderer.style-scope.ytd-item-section-renderer'
+  );
+  const commentContainer = commentElements[2];
+  const comments = [
+    ...commentContainer.querySelectorAll('ytd-comment-thread-renderer'),
+  ];
+
+  // Sort comments based on likes
+  comments.sort((a, b) => {
+    const likesA = a.querySelector('#vote-count-middle').innerText;
+    const likesB = b.querySelector('#vote-count-middle').innerText;
+
+    const numericLikesA = convertToNumber(likesA);
+    const numericLikesB = convertToNumber(likesB);
+
+    return numericLikesB - numericLikesA;
+  });
+
+  // Reattach sorted comments to the comment container
+  comments.forEach((comment) => commentContainer.appendChild(comment));
+  // commentContainer.querySelector('ytd-continuation-item-renderer').remove();
+}
+
 function activateExtension() {
   const commentsEl = document.querySelector('#comments');
 
   const sortButton = document.createElement('button');
   sortButton.classList.add('comments-header-btn');
   sortButton.innerHTML = 'SORT';
+
+  sortButton.addEventListener('click', sortCommentsByLikes);
 
   if (!commentsEl.querySelector('header')) {
     const header = document.createElement('header');
