@@ -6,50 +6,66 @@ loaded on the page.
 */
 
 chrome.runtime.onMessage.addListener((request) => {
-  console.log('Trest');
   if (!request.activate) return;
 
-  function test() {
-    const trackedElement = document.querySelector(
-      '#title.style-scope.ytd-comments-header-renderer'
-    );
+  const trackedElement = document.getElementById('content');
+  const config = {
+    childList: true,
+    subtree: true,
+  };
 
-    if (!trackedElement) {
-      window.setTimeout(test, 500);
-      return;
+  const callback = (mutationList, observer) => {
+    if (mutationList.some((mutation) => mutation.target.id === 'comments')) {
+      activateExtension();
+      observer.disconnect();
     }
+  };
 
-    const config = {
-      childList: true,
-      subtree: true,
-    };
-
-    // const callback = (mutationList, observer) => {
-    //   if (mutationList.some((mutation) => mutation.target.id === 'comments')) {
-    //     activateExtension();
-    //     observer.disconnect(); // Stop observing changes to the DOM
-    //   }
-    // };
-
-    const callback = (mutationList, observer) => {
-      for (const mutation of mutationList) {
-        if (mutation.type === 'childList') {
-          console.log('A child node has been added or removed.');
-        } else if (mutation.type === 'attributes') {
-          console.log(`The ${mutation.attributeName} attribute was modified.`);
-        }
-      }
-    };
-
-    const observer = new MutationObserver(callback);
-    observer.observe(trackedElement, config);
-  }
-
-  test();
+  const observer = new MutationObserver(callback);
+  observer.observe(trackedElement, config);
 });
 
 function activateExtension() {
-  console.log('hey');
+  console.log(document.querySelector('ytd-comments'));
+}
+
+function test() {
+  console.log(document.querySelector('ytd-comments'));
+
+  console.log(document.querySelector('#below'));
+  const trackedElement = document.querySelector('ytd-comment-thread-renderer');
+
+  console.log(trackedElement);
+  // if (!trackedElement) {
+  //   window.setTimeout(test, 500);
+  //   return;
+  // }
+
+  const config = {
+    childList: true,
+    subtree: true,
+  };
+
+  // const callback = (mutationList, observer) => {
+  //   if (mutationList.some((mutation) => mutation.target.id === 'comments')) {
+  //     activateExtension();
+  //     observer.disconnect(); // Stop observing changes to the DOM
+  //   }
+  // };
+
+  const callback = (mutationList, observer) => {
+    for (const mutation of mutationList) {
+      if (mutation.type === 'childList') {
+        console.log('A child node has been added or removed.');
+      } else if (mutation.type === 'attributes') {
+        console.log(`The ${mutation.attributeName} attribute was modified.`);
+      }
+    }
+  };
+
+  // const observer = new MutationObserver(callback);
+  // observer.observe(trackedElement, config);
+  // observer.disconnect();
 }
 
 // function addObserverIfDesiredNodeAvailable() {
