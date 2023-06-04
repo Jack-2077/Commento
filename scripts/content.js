@@ -56,7 +56,10 @@ function sortCommentsByLikes() {
 
   // Reattach sorted comments to the comment container
   comments.forEach((comment) => commentContainer.appendChild(comment));
-  // commentContainer.querySelector('ytd-continuation-item-renderer').remove();
+  const loadingSpinner = commentContainer.querySelector(
+    'ytd-continuation-item-renderer'
+  );
+  loadingSpinner && loadingSpinner.remove();
 }
 
 function activateExtension() {
